@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Naive Bayes Model Prediction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --form-bg: rgba(255, 255, 255, 0.1);
+            --text-light: #f3f4f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f172a;
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-container {
+            background: var(--form-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(5, 182, 252, 0.897);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1rem;
+            padding-right: 2.5rem;
+        }
+
+        .range-container {
+            position: relative;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin: 1rem 0;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .range-value {
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .result-container {
+            margin-top: 2rem;
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+        }
+
+        .result {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #10b981;
+        }
+
+        .error {
+            color: #ef4444;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .form-container {
+                padding: 1.5rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-background">
+        <video autoplay muted loop>
+            <source src="https://cdn.dribbble.com/userupload/7936453/file/original-80071a533bd3c78d18f93bf70c273d1a.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="overlay"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Naive Bayes Model Prediction</h1>
+        </div>
+
+        <form method="POST" class="form-container">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <div class="range-container">
+                        <input type="range" name="age" id="age" min="20" max="100" value="50" required>
+                        <span class="range-value" id="age-output">50 years</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="sex">Sex</label>
+                    <select name="sex" id="sex" required>
+                        <option value="" disabled selected>Choose an option</option>
+                        <option value="0">Female</option>
+                        <option value="1">Male</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="cp">Chest Pain Type</label>
+                    <select name="cp" id="cp" required>
+                        <option value="" disabled selected>Choose chest pain type</option>
+                        <option value="1">Type 1</option>
+                        <option value="2">Type 2</option>
+                        <option value="3">Type 3</option>
+                        <option value="4">Type 4</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="trestbps">Resting Blood Pressure</label>
+                    <div class="range-container">
+                        <input type="range" name="trestbps" id="trestbps" min="80" max="200" value="120" required>
+                        <span class="range-value" id="trestbps-output">120 mm Hg</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="chol">Serum Cholesterol</label>
+                    <div class="range-container">
+                        <input type="range" name="chol" id="chol" min="100" max="400" value="200" required>
+                        <span class="range-value" id="chol-output">200 mg/dL</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="fbs">Fasting Blood Sugar</label>
+                    <select name="fbs" id="fbs" required>
+                        <option value="" disabled selected>Choose an option</option>
+                        <option value="0">False</option>
+                        <option value="1">True</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="restecg">Resting ECG Results</label>
+                    <select name="restecg" id="restecg" required>
+                        <option value="" disabled selected>Select ECG result</option>
+                        <option value="0">Normal</option>
+                        <option value="1">Having ST-T wave abnormality</option>
+                        <option value="2">Left ventricular hypertrophy</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="thalach">Maximum Heart Rate</label>
+                    <div class="range-container">
+                        <input type="range" name="thalach" id="thalach" min="60" max="200" value="120" required>
+                        <span class="range-value" id="thalach-output">120 bpm</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="exang">Exercise Induced Angina</label>
+                    <select name="exang" id="exang" required>
+                        <option value="" disabled selected>Choose an option</option>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="oldpeak">ST Depression</label>
+                    <div class="range-container">
+                        <input type="range" name="oldpeak" id="oldpeak" min="0" max="6" step="0.1" value="0" required>
+                        <span class="range-value" id="oldpeak-output">0.0</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="slope">Slope of Peak Exercise ST Segment</label>
+                    <select name="slope" id="slope" required>
+                        <option value="" disabled selected>Choose an option</option>
+                        <option value="1">Upsloping</option>
+                        <option value="2">Flat</option>
+                        <option value="3">Downsloping</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ca">Number of Major Vessels</label>
+                    <select name="ca" id="ca" required>
+                        <option value="" disabled selected>Choose an option</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="thal">Thalassemia</label>
+                    <select name="thal" id="thal" required>
+                        <option value="" disabled selected>Choose an option</option>
+                        <option value="3">Normal</option>
+                        <option value="6">Fixed Defect</option>
+                        <option value="7">Reversible Defect</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="button-container">
+                <button type="submit">Get Prediction</button>
+            </div>
+        </form>
+
+        {% if result or error %}
+        <div class="result-container">
+            {% if result %}
+            <div class="result">Prediction: {{ result }}</div>
+            {% else %}
+            <div class="error">Error: {{ error }}</div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Update range slider outputs
+        function updateRangeOutput(inputId, outputId, suffix) {
+            const input = document.getElementById(inputId);
+            const output = document.getElementById(outputId);
+            input.addEventListener('input', () => {
+                output.textContent = `${input.value} ${suffix}`;
+            });
+        }
+
+        updateRangeOutput('age', 'age-output', 'years');
+        updateRangeOutput('trestbps', 'trestbps-output', 'mm Hg');
+        updateRangeOutput('chol', 'chol-output', 'mg/dL');
+        updateRangeOutput('thalach', 'thalach-output', 'bpm');
+        updateRangeOutput('oldpeak', 'oldpeak-output', '');
+    </script>
+</body>
+</html>
