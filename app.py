@@ -133,5 +133,9 @@ def model_predict(model_name):
             return render_template(f'{model_name}.html', error=str(e))
     return render_template(f'{model_name}.html')
 
+@app.route('/visualizations')
+def visualizations():
+    return render_template('visualization.html')
+
 if __name__ == '__main__':
     app.run(debug=True, threaded=False, use_reloader=False)
