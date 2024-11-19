@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heart Disease Predictor - Visualizations</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -84,35 +86,108 @@
         }
 
         .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             padding: 2rem;
+            width: 100%;
+            max-width: 1400px;
         }
 
         .gallery-item {
             text-align: center;
-            max-width: 600px;
-        }
-
-        .gallery-item img {
-            max-width: 100%;
-            height: auto;
+            position: relative;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
             transition: transform 0.3s;
         }
 
-        .gallery-item img:hover {
-            transform: scale(1.05);
+        .gallery-item:hover {
+            transform: scale(1.03);
         }
 
-        .gallery-item p {
-            margin-top: 0.5rem;
-            color: #e0e0e0;
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.3s;
         }
 
+        .gallery-item .image-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            transition: background 0.3s;
+        }
+
+        .gallery-item:hover .image-label {
+            background: rgba(92, 184, 92, 0.7);
+        }
+
+        /* Zoom Popup Styles */
+        .image-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .image-popup.active {
+            display: flex;
+        }
+
+        .image-popup-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .image-popup-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .close-popup {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.2);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .close-popup:hover {
+            background: rgba(255, 0, 0, 0.5);
+        }
+
+        /* Floating Buttons Styles */
         .floating-buttons {
             position: fixed;
             right: 20px;
@@ -121,6 +196,7 @@
             display: flex;
             flex-direction: column;
             gap: 1rem;
+            z-index: 200;
         }
 
         .floating-buttons a {
@@ -154,12 +230,12 @@
 
     <nav>
         <div class="nav-links">
-            <a href="#"><i class="fas fa-cogs"></i> Data Preprocessing</a>
-            <a href="https://youtube.com"><i class="fab fa-youtube"></i> YouTube Video</a>
-            <a href="https://github.com"><i class="fab fa-github"></i> Source Code</a>
+            <a href="Data_Preprocessing"><i class="fas fa-cogs"></i> Data Preprocessing</a>
+            <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i> YouTube Video</a>
+            <a href="https://github.com" target="_blank"><i class="fab fa-github"></i> Source Code</a>
             <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
             <a href="#"><i class="fas fa-chart-bar"></i> Visualizations</a>
-            <a href="#"><i class="fas fa-trophy"></i> Model Performances</a>
+            <a href="Model_Performances"><i class="fas fa-trophy"></i> Model Performances</a>
         </div>
         <div class="auth-links">
             <a href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
@@ -174,75 +250,132 @@
         <a href="/about" title="About"><i class="fas fa-info-circle"></i></a>
     </div>
 
+    <!-- Image Popup Container -->
+    <div class="image-popup">
+        <div class="close-popup">&times;</div>
+        <div class="image-popup-content">
+            <img src="" alt="Zoomed Image">
+        </div>
+    </div>
+
     <main>
         <h1>Data Visualizations</h1>
         <div class="gallery">
             <!-- Correlation Matrix -->
             <div class="gallery-item">
-                <img src="../Images/Correlation%20matrix.png" alt="Correlation Matrix">
-                <p>Correlation Matrix of Heart Disease Features</p>
+                <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Correlation%20matrix.png" alt="Correlation Matrix">
+                <div class="image-label">Correlation Matrix of Heart Disease Features</div>
             </div>
 
             <!-- Age Distribution -->
             <div class="gallery-item">
-                <img src="Images/Distribution of Age.png" alt="Age Distribution">
-                <p>Distribution of Age in Dataset</p>
+                <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Distribution%20of%20Age.png" alt="Age Distribution">
+                <div class="image-label">Distribution of Age in Dataset</div>
             </div>
 
             <!-- Sex Distribution -->
             <div class="gallery-item">
-                <img src="Images/Distribution of Sex.png" alt="Sex Distribution">
-                <p>Distribution of Sex in Dataset</p>
+                <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Distribution%20of%20Sex.png" alt="Sex Distribution">
+                <div class="image-label">Distribution of Sex in Dataset</div>
             </div>
 
             <!-- Training Data Age Distribution -->
             <div class="gallery-item">
-                <img src="Images/Distribution of Age in Training Data.png" alt="Training Data Age Distribution">
-                <p>Age Distribution in Training Data</p>
+                <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Distribution%20of%20Age%20in%20Training%20Data.png" alt="Training Data Age Distribution">
+                <div class="image-label">Age Distribution in Training Data</div>
             </div>
 
             <!-- Training Data Sex Distribution -->
             <div class="gallery-item">
-                <img src="Images/Distribution of Sex in Training Data.png" alt="Training Data Sex Distribution">
-                <p>Sex Distribution in Training Data</p>
+                <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Distribution%20of%20Sex%20in%20Training%20Data.png" alt="Training Data Sex Distribution">
+                <div class="image-label">Sex Distribution in Training Data</div>
             </div>
 
             <!-- Testing Data Age Distribution -->
             <div class="gallery-item">
-                <img src="Images/Distribution of Age in Testing Data.png" alt="Testing Data Age Distribution">
-                <p>Age Distribution in Testing Data</p>
+                <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Distribution%20of%20Age%20in%20Testing%20Data.png" alt="Testing Data Age Distribution">
+                <div class="image-label">Age Distribution in Testing Data</div>
             </div>
 
             <!-- Testing Data Sex Distribution -->
             <div class="gallery-item">
-                <img src="Images/Distribution of Sex in Testing Data.png" alt="Testing Data Sex Distribution">
-                <p>Sex Distribution in Testing Data</p>
+                <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Distribution%20of%20Sex%20in%20Testing%20Data.png" alt="Testing Data Sex Distribution">
+                <div class="image-label">Sex Distribution in Testing Data</div>
             </div>
 
             <!-- KNN Confusion Matrix -->
             <div class="gallery-item">
-                <img src="Images/Confusion Matrix for KNN Model.png" alt="KNN Confusion Matrix">
-                <p>Confusion Matrix for KNN Model</p>
+                <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Confusion%20Matrix%20for%20KNN%20Model.png" alt="KNN Confusion Matrix">
+                <div class="image-label">Confusion Matrix for KNN Model</div>
             </div>
 
             <!-- Naive Bayes Confusion Matrix -->
             <div class="gallery-item">
-                <img src="Images/Confusion Matrix for Naive Bayes Model.png" alt="Naive Bayes Confusion Matrix">
-                <p>Confusion Matrix for Naive Bayes Model</p>
+                <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Confusion%20Matrix%20for%20Naive%20Bayes%20Model.png" alt="Naive Bayes Confusion Matrix">
+                <div class="image-label">Confusion Matrix for Naive Bayes Model</div>
             </div>
 
             <!-- SVM Confusion Matrix -->
             <div class="gallery-item">
-                <img src="Images/SVM Confusion Matrix.png" alt="SVM Confusion Matrix">
-                <p>Confusion Matrix for SVM Model</p>
+                <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/SVM%20Confusion%20Matrix.png" alt="SVM Confusion Matrix">
+                <div class="image-label">SVM Confusion Matrix</div>
             </div>
 
-            <!-- Model Comparison -->
+            <!-- Model Accuracy Comparison -->
             <div class="gallery-item">
-                <img src="Images/Comparison of Model Accuracies.png" alt="Model Comparison">
-                <p>Comparison of Model Accuracies</p>
+                <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Comparison%20of%20Model%20Accuracies.png" alt="Comparison of Model Accuracies">
+                <div class="image-label">Comparison of Model Accuracies</div>
             </div>
         </div>
     </main>
+
+    <script>
+        // Image Zoom Functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            const imagePopup = document.querySelector('.image-popup');
+            const popupImage = document.querySelector('.image-popup-content img');
+            const closePopup = document.querySelector('.close-popup');
+
+            // Add hover zoom effect
+            galleryItems.forEach(item => {
+                const img = item.querySelector('img');
+                
+                // Hover effect
+                item.addEventListener('mouseenter', () => {
+                    img.style.transform = 'scale(1.1)';
+                });
+                
+                item.addEventListener('mouseleave', () => {
+                    img.style.transform = 'scale(1)';
+                });
+
+                // Click to open full image popup
+                img.addEventListener('click', () => {
+                    popupImage.src = img.src;
+                    imagePopup.classList.add('active');
+                });
+            });
+
+            // Close popup when close button is clicked
+            closePopup.addEventListener('click', () => {
+                imagePopup.classList.remove('active');
+            });
+
+            // Close popup when clicking outside the image
+            imagePopup.addEventListener('click', (e) => {
+                if (e.target === imagePopup) {
+                    imagePopup.classList.remove('active');
+                }
+            });
+
+            // Close popup with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && imagePopup.classList.contains('active')) {
+                    imagePopup.classList.remove('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

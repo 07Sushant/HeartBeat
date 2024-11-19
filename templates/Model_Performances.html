@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Heart Disease Predictor - Model Performances</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .video-container video {
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+        }
+
+        nav {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links a:hover {
+            color: #5cb85c;
+        }
+
+        .auth-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .floating-buttons {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .floating-buttons a {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1.5rem;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .floating-buttons a:hover {
+            background: rgba(92, 184, 92, 0.5);
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(92, 184, 92, 0.6);
+        }
+
+        .performance-container {
+            position: relative;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin-top: 100px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .model-performance {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .model-performance:hover {
+            transform: scale(1.03);
+        }
+
+        .model-performance h2 {
+            color: #5cb85c;
+            border-bottom: 2px solid #5cb85c;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .performance-metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .performance-metric p {
+            color: #e0e0e0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .metric-icon {
+            margin-right: 10px;
+            color: #5cb85c;
+        }
+
+        small {
+            color: #888;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <video autoplay muted loop>
+            <source src="https://cdn.dribbble.com/userupload/7936453/file/original-80071a533bd3c78d18f93bf70c273d1a.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <nav>
+        <div class="nav-links">
+            <a href="#"><i class="fas fa-cogs"></i> Data Preprocessing</a>
+            <a href="https://youtube.com"><i class="fab fa-youtube"></i> YouTube Video</a>
+            <a href="https://github.com"><i class="fab fa-github"></i> Source Code</a>
+            <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+            <a href="visualization"><i class="fas fa-chart-bar"></i> Visualizations</a>
+            <a href="Model_Performances"><i class="fas fa-trophy"></i> Model Performances</a>
+        </div>
+        <div class="auth-links">
+            <a href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="/signup"><i class="fas fa-user-plus"></i> Signup</a>
+        </div>
+    </nav>
+
+    <!-- Floating Buttons -->
+    <div class="floating-buttons">
+        <a href="/" title="Home"><i class="fas fa-home"></i></a>
+        <a href="/report" title="Report"><i class="fas fa-file-alt"></i></a>
+        <a href="/about" title="About"><i class="fas fa-info-circle"></i></a>
+    </div>
+
+    <div class="performance-container">
+        <h1><i class="fas fa-trophy"></i> Model Performance Comparison</h1>
+
+        <div class="model-performance">
+            <h2><i class="fas fa-project-diagram"></i> KNN Model</h2>
+            <div class="performance-metric">
+                <p><i class="fas fa-bullseye metric-icon"></i> Accuracy: 65.93% <small>(From Chart)</small></p>
+            </div>
+            <div class="performance-metric">
+                <p><i class="fas fa-crosshairs metric-icon"></i> Precision: 65.22% <small>(34 / (34 + 18))</small></p>
+            </div>
+            <div class="performance-metric">
+                <p><i class="fas fa-expand-arrows-alt metric-icon"></i> Recall: 70.83% <small>(34 / (34 + 13))</small></p>
+            </div>
+            <small>Confusion Matrix: [[26, 18], [13, 34]]</small>
+        </div>
+
+        <div class="model-performance">
+            <h2><i class="fas fa-brain"></i> Naive Bayes Model</h2>
+            <div class="performance-metric">
+                <p><i class="fas fa-bullseye metric-icon"></i> Accuracy: 83.52% <small>(From Chart)</small></p>
+            </div>
+            <div class="performance-metric">
+                <p><i class="fas fa-crosshairs metric-icon"></i> Precision: 79.07% <small>(43 / (43 + 11))</small></p>
+            </div>
+            <div class="performance-metric">
+                <p><i class="fas fa-expand-arrows-alt metric-icon"></i> Recall: 91.49% <small>(43 / (43 + 4))</small></p>
+            </div>
+            <small>Confusion Matrix: [[33, 11], [4, 43]]</small>
+        </div>
+
+        <div class="model-performance">
+            <h2><i class="fas fa-vector-square"></i> SVM Model</h2>
+            <div class="performance-metric">
+                <p><i class="fas fa-bullseye metric-icon"></i> Accuracy: 85.71% <small>(From Chart)</small></p>
+            </div>
+            <div class="performance-metric">
+                <p><i class="fas fa-crosshairs metric-icon"></i> Precision: 95.74% <small>(45 / (45 + 2))</small></p>
+            </div>
+            <div class="performance-metric">
+                <p><i class="fas fa-expand-arrows-alt metric-icon"></i> Recall: 80.36% <small>(45 / (45 + 11))</small></p>
+            </div>
+            <small>Confusion Matrix: [[33, 2], [11, 45]]</small>
+        </div>
+    </div>
+</body>
+</html>

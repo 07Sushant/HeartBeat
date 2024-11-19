@@ -137,5 +137,14 @@ def model_predict(model_name):
 def visualizations():
     return render_template('visualization.html')
 
+
+@app.route('/Model_Performances')
+def Model_Performance():
+    return render_template('Model_Performances.html')
+
+@app.route('/Data_Preprocessing')
+def Model_Performance():
+    return render_template('Data_Preprocessing.html')
+
 if __name__ == '__main__':
     app.run(debug=True, threaded=False, use_reloader=False)

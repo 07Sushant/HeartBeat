@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Heart Disease Predictor</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Predictor - Data Preprocessing</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -15,6 +17,7 @@
             min-height: 100vh;
             background: #1a1a1a;
             color: white;
+            scroll-behavior: smooth;
         }
 
         .video-container {
@@ -83,74 +86,48 @@
             background: rgba(0, 0, 0, 0.5);
         }
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff;
+        .preprocessing-gallery {
+            width: 100%;
+            height: 80vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
 
-        .about-text {
-            max-width: 600px;
-            margin: 1rem auto;
-            line-height: 1.6;
-            color: #e0e0e0;
+        .preprocessing-gallery::-webkit-scrollbar {
+            display: none;
         }
 
-        .button-container {
+        .gallery-item {
+            width: 100%;
+            height: 100%;
+            scroll-snap-align: start;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: transform 0.3s, background-color 0.3s;
-            text-decoration: none;
-            display: inline-flex;
+            justify-content: center;
             align-items: center;
-            gap: 0.5rem;
+            padding: 2rem;
+            box-sizing: border-box;
         }
 
-        .btn:hover {
-            transform: translateY(-3px);
+        .gallery-item img {
+            max-width: 90%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 10px;
+            transition: transform 0.3s;
         }
 
-        .btn-primary {
-            background: #5cb85c;
+        .gallery-item .image-label {
+            margin-top: 1rem;
+            background: rgba(0, 0, 0, 0.7);
             color: white;
+            padding: 10px;
+            border-radius: 5px;
         }
 
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            backdrop-filter: blur(5px);
-        }
-
-        .model-options {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .model-option {
-            padding: 0.5rem 1rem;
-            background: rgba(92, 184, 92, 0.2);
-            border-radius: 15px;
-            color: white;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
-
-        .model-option:hover {
-            background: rgba(92, 184, 92, 0.4);
-        }
-
-        /* Floating Buttons */
+        /* Floating Buttons Styles */
         .floating-buttons {
             position: fixed;
             right: 20px;
@@ -159,6 +136,7 @@
             display: flex;
             flex-direction: column;
             gap: 1rem;
+            z-index: 200;
         }
 
         .floating-buttons a {
@@ -192,12 +170,12 @@
 
     <nav>
         <div class="nav-links">
-            <a href="Data_Preprocessing"><i class="fas fa-cogs"></i> Data Preprocessing</a>
-            <a href="https://youtube.com"><i class="fab fa-youtube"></i> YouTube Video</a>
-            <a href="https://github.com"><i class="fab fa-github"></i> Source Code</a>
-            <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a> <!-- LinkedIn Link -->
-            <a href="visualization"><i class="fas fa-chart-bar"></i> Visualizations</a>
-            <a href="Model_Performances"><i class="fas fa-trophy"></i> Model Performances</a>
+            <a href="#" class="active"><i class="fas fa-cogs"></i> Data Preprocessing</a>
+            <a href="Visualizations.html"><i class="fas fa-chart-bar"></i> Visualizations</a>
+            <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i> YouTube Video</a>
+            <a href="https://github.com" target="_blank"><i class="fab fa-github"></i> Source Code</a>
+            <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+            <a href="Model_Performances.html"><i class="fas fa-trophy"></i> Model Performances</a>
         </div>
         <div class="auth-links">
             <a href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
@@ -213,26 +191,47 @@
     </div>
 
     <main>
-        <h1>Heart Disease Risk Prediction</h1>
-        <p class="about-text">
-            Advanced machine learning models to predict heart disease risk factors.<br>
-            Empowering healthcare decisions through data-driven insights.
-        </p>
+        <h1>Data Preprocessing Steps</h1>
+        <div class="preprocessing-gallery">
+            <!-- Data Cleaning -->
+            <div class="gallery-item">
+                <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Data%20Cleaning%20Process.png" alt="Data Cleaning">
+                <div class="image-label">Data Inspection</div>
+            </div>
 
-        <div class="button-container">
-            <a href="/knn" class="btn btn-primary">
-                <i class="fas fa-heartbeat"></i> Predict Now
-            </a>
-            <a href="C:\Local volume\Programming\Machine Learning\Dashboard\heart.csv" class="btn btn-secondary">
-                <i class="fas fa-database"></i> Explore Dataset
-            </a>
-        </div>
+            <!-- Feature Selection -->
+            <div class="gallery-item">
+                <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Feature%20Selection%20Process.png" alt="Feature Selection">
+                <div class="image-label">Data Cleaning and Handling Missing Values</div>
+            </div>
 
-        <div class="model-options">
-            <a href="/knn" class="model-option">KNN Model</a>
-            <a href="/knn" class="model-option">Naive Bayes</a>
-            <a href="/knn" class="model-option">SVM Model</a>
+            <!-- Data Normalization -->
+            <div class="gallery-item">
+                <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Normalization%20Process.png" alt="Data Normalization">
+                <div class="image-label">Data Normalization Techniques</div>
+            </div>
+
+            <!-- Train Test Split -->
+            <div class="gallery-item">
+                <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Train%20Test%20Split%20Process.png" alt="Train Test Split">
+                <div class="image-label">Train-Test Split Strategy</div>
+            </div>
         </div>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const gallery = document.querySelector('.preprocessing-gallery');
+            
+            // Smooth scrolling between gallery items
+            gallery.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                gallery.scrollBy({
+                    top: e.deltaY > 0 ? gallery.clientHeight : -gallery.clientHeight,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 </body>
 </html>
