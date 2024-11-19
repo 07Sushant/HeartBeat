@@ -18,6 +18,7 @@
             background: #1a1a1a;
             color: white;
             scroll-behavior: smooth;
+            line-height: 1.6;
         }
 
         .video-container {
@@ -54,6 +55,7 @@
             display: flex;
             gap: 2rem;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .nav-links a {
@@ -76,58 +78,74 @@
         }
 
         main {
-            padding-top: 80px;
+            padding-top: 100px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            text-align: center;
             background: rgba(0, 0, 0, 0.5);
+            padding-bottom: 50px;
         }
 
-        .preprocessing-gallery {
+        .preprocessing-content {
             width: 100%;
-            height: 80vh;
-            overflow-y: scroll;
-            scroll-snap-type: y mandatory;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+            max-width: 1400px;
+            padding: 0 20px;
         }
 
-        .preprocessing-gallery::-webkit-scrollbar {
-            display: none;
+        h1 {
+            margin-bottom: 30px;
+            color: #5cb85c;
+            text-align: center;
+            font-size: 2.5rem;
         }
 
-        .gallery-item {
-            width: 100%;
-            height: 100%;
-            scroll-snap-align: start;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            box-sizing: border-box;
+        .preprocessing-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
         }
 
-        .gallery-item img {
-            max-width: 90%;
-            max-height: 80vh;
+        .preprocessing-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(92, 184, 92, 0.2);
+        }
+
+        .preprocessing-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 20px rgba(92, 184, 92, 0.2);
+        }
+
+        .preprocessing-item img {
+            max-width: 100%;
+            height: 400px;
             object-fit: contain;
             border-radius: 10px;
+            margin-bottom: 15px;
             transition: transform 0.3s;
         }
 
-        .gallery-item .image-label {
-            margin-top: 1rem;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
+        .preprocessing-item:hover img {
+            transform: scale(1.05);
         }
 
-        /* Floating Buttons Styles */
+        .preprocessing-item .image-label {
+            font-weight: bold;
+            color: #5cb85c;
+            margin-top: 10px;
+            font-size: 1.2rem;
+        }
+
+        .preprocessing-item .image-description {
+            color: #aaa;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
         .floating-buttons {
             position: fixed;
             right: 20px;
@@ -140,24 +158,87 @@
         }
 
         .floating-buttons a {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             background: rgba(255, 255, 255, 0.2);
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             text-decoration: none;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s, background-color 0.3s;
         }
 
         .floating-buttons a:hover {
             background: rgba(92, 184, 92, 0.5);
             transform: scale(1.1);
-            box-shadow: 0 6px 15px rgba(92, 184, 92, 0.6);
+        }
+
+        .notebook-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 40px;
+            width: 100%;
+            border: 1px solid rgba(92, 184, 92, 0.2);
+        }
+
+        .notebook-title {
+            text-align: center;
+            color: #5cb85c;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .notebook-title i {
+            font-size: 2rem;
+        }
+
+        .notebook-pdf {
+            width: 100%;
+            height: 800px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        @media (max-width: 1200px) {
+            .preprocessing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .notebook-pdf {
+                height: 600px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .nav-links, .auth-links {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+
+            .preprocessing-content {
+                padding: 0 10px;
+            }
+
+            .notebook-pdf {
+                height: 400px;
+            }
         }
     </style>
 </head>
@@ -183,7 +264,6 @@
         </div>
     </nav>
 
-    <!-- Floating Buttons -->
     <div class="floating-buttons">
         <a href="/" title="Home"><i class="fas fa-home"></i></a>
         <a href="/report" title="Report"><i class="fas fa-file-alt"></i></a>
@@ -191,45 +271,69 @@
     </div>
 
     <main>
-        <h1>Data Preprocessing Steps</h1>
-        <div class="preprocessing-gallery">
-            <!-- Data Cleaning -->
-            <div class="gallery-item">
-                <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Data%20Cleaning%20Process.png" alt="Data Cleaning">
-                <div class="image-label">Data Inspection</div>
+        <div class="preprocessing-content">
+            <h1>Data Preprocessing Steps for Heart Disease Prediction</h1>
+            
+            <div class="preprocessing-grid">
+                <div class="preprocessing-item">
+                    <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Data%20Inspection.png" alt="Data Inspection">
+                    <div class="image-label">Data Inspection</div>
+                    <div class="image-description">Initial examination of the dataset to understand its structure and characteristics</div>
+                </div>
+
+                <div class="preprocessing-item">
+                    <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/is_na.png" alt="Data Cleaning">
+                    <div class="image-label">Data Cleaning and Missing Values</div>
+                    <div class="image-description">Handling missing values and preparing data for analysis</div>
+                </div>
+
+                <div class="preprocessing-item">
+                    <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Summary.png" alt="Dataset Summary">
+                    <div class="image-label">Dataset Summary</div>
+                    <div class="image-description">Comprehensive overview of dataset statistics and key insights</div>
+                </div>
+
+                <div class="preprocessing-item">
+                    <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Split.png" alt="Train-Test Split">
+                    <div class="image-label">Train-Test Split Strategy</div>
+                    <div class="image-description">Splitting data into training and testing sets for model development</div>
+                </div>
             </div>
 
-            <!-- Feature Selection -->
-            <div class="gallery-item">
-                <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Feature%20Selection%20Process.png" alt="Feature Selection">
-                <div class="image-label">Data Cleaning and Handling Missing Values</div>
-            </div>
-
-            <!-- Data Normalization -->
-            <div class="gallery-item">
-                <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Normalization%20Process.png" alt="Data Normalization">
-                <div class="image-label">Data Normalization Techniques</div>
-            </div>
-
-            <!-- Train Test Split -->
-            <div class="gallery-item">
-                <img src="https://raw.githubusercontent.com/07Sushant/HeartBeat/main/Images/Train%20Test%20Split%20Process.png" alt="Train Test Split">
-                <div class="image-label">Train-Test Split Strategy</div>
+            <div class="notebook-section">
+                <h2 class="notebook-title">
+                    <i class="fas fa-laptop-code"></i> ML Notebook
+                </h2>
+                <object 
+                    class="notebook-pdf" 
+                    type="application/pdf" 
+                    data="ML Notebook/ML Notebook.pdf"
+                >
+                    <p>Your browser doesn't support PDF viewing. 
+                    <a href="../ML Notebook/ML Notebook.pdf">Download the PDF</a> instead.</p>
+                </object>
             </div>
         </div>
     </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const gallery = document.querySelector('.preprocessing-gallery');
+            const pdfObject = document.querySelector('.notebook-pdf');
             
-            // Smooth scrolling between gallery items
-            gallery.addEventListener('wheel', (e) => {
-                e.preventDefault();
-                gallery.scrollBy({
-                    top: e.deltaY > 0 ? gallery.clientHeight : -gallery.clientHeight,
-                    behavior: 'smooth'
-                });
+            pdfObject.addEventListener('load', () => {
+                console.log('PDF loaded successfully');
+            });
+
+            pdfObject.addEventListener('error', () => {
+                pdfObject.style.display = 'none';
+                const errorMsg = document.createElement('div');
+                errorMsg.innerHTML = `
+                    <div style="color: red; text-align: center; padding: 20px; background: rgba(255, 0, 0, 0.1); border-radius: 10px;">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        Unable to load PDF. Please check the file path or network connection.
+                    </div>
+                `;
+                pdfObject.parentNode.insertBefore(errorMsg, pdfObject);
             });
         });
     </script>

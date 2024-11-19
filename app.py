@@ -139,12 +139,13 @@ def visualizations():
 
 
 @app.route('/Model_Performances')
-def Model_Performance():
+def model_performance():
     return render_template('Model_Performances.html')
 
 @app.route('/Data_Preprocessing')
-def Model_Performance():
+def data_preprocessing():
     return render_template('Data_Preprocessing.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True, threaded=False, use_reloader=False)
